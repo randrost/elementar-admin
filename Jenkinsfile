@@ -49,7 +49,7 @@ pipeline {
                     sh """
                         export PATH="\$WORKSPACE/bin:\$PATH"
                         sed 's#registry.tulikas.de/elementar-rt-admin:latest#registry.tulikas.de/elementar-rt-admin:${env.BUILD_NUMBER}#' \
-                          infra/apps/elementar-rt-demo/manifest.yaml | kubectl apply -f -
+                          infra/apps/elementar-admin/manifest.yaml | kubectl apply -f -
                         # Plain kubectl has no --atomic equivalent -- roll back
                         # explicitly if the new pods never go healthy, instead
                         # of leaving a broken rollout live.
