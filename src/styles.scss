@@ -18,3 +18,11 @@
   outline-offset: 2px;
   border-radius: 0.5rem;
 }
+
+/* Tailwind's .sr-only has no top/left, so the 1px box sits at its static
+   position. Inside a wide table in an overflow-x-auto wrapper that is outside
+   every positioned ancestor, and it widened the whole page on phones. */
+.sr-only {
+  top: 0;
+  left: 0;
+}

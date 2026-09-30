@@ -45,7 +45,9 @@ type Kind = 'categories' | 'topics';
 
         <!-- List -->
         <div class="min-w-0 flex-1">
-          <div class="overflow-hidden rounded-2xl border border-outline-variant bg-surface">
+          <!-- overflow-x-auto (not hidden): on a phone the table is wider than the
+               card, and hidden clipped the Posts column and the delete buttons. -->
+          <div class="overflow-x-auto rounded-2xl border border-outline-variant bg-surface">
             <table class="w-full text-sm">
               <thead>
                 <tr class="border-b border-outline-variant bg-surface-container-low text-left text-xs uppercase tracking-wide text-on-surface-variant">

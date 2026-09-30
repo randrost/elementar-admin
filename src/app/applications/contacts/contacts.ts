@@ -86,7 +86,13 @@ import { Contact, ContactsService } from './mock-data';
 
         <!-- Detail pane -->
         @if (selected(); as contact) {
-          <div class="flex w-full flex-col overflow-y-auto rounded-2xl border border-outline-variant bg-surface">
+          <!-- Below lg the list shows first; the detail only after a tap. Without
+               the hidden toggle both panes shared a phone-wide row and the
+               detail was pushed off-screen. -->
+          <div
+            class="flex w-full min-w-0 flex-col overflow-y-auto rounded-2xl border border-outline-variant bg-surface"
+            [class.hidden]="!narrowShowsDetail()"
+            [class.lg:flex]="true">
             <!-- Not position:relative — a positioned banner paints above the
                  static avatar below it and clips its top half off. The top
                  rounding keeps its square corners inside the card border. -->

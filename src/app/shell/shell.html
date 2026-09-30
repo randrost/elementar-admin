@@ -4,17 +4,21 @@
   <aside class="contents" aria-label="Site notices">
   @if (store.hasAnnouncement()) {
     @let a = store.announcement();
+    <!-- Message and link share one text block so the link flows after the
+         message on a phone instead of being squeezed into its own column. -->
     <div class="flex shrink-0 items-center justify-center gap-3 bg-primary px-4 py-1.5 text-sm text-on-primary">
-      <iconify-icon icon="solar:confetti-bold-duotone" width="18" height="18"></iconify-icon>
-      <span>{{ a?.message }}</span>
-      @if (a?.link) {
-        <a
-          [href]="a?.link"
-          target="_blank"
-          rel="noopener"
-          class="font-semibold underline underline-offset-2">{{ a?.linkLabel }}</a>
-      }
-      <button class="ml-2 opacity-80 hover:opacity-100" (click)="store.dismissAnnouncement()" aria-label="Dismiss announcement">
+      <iconify-icon class="shrink-0" icon="solar:confetti-bold-duotone" width="18" height="18"></iconify-icon>
+      <p class="min-w-0 max-sm:flex-1">
+        {{ a?.message }}
+        @if (a?.link) {
+          <a
+            [href]="a?.link"
+            target="_blank"
+            rel="noopener"
+            class="ml-1 whitespace-nowrap font-semibold underline underline-offset-2">{{ a?.linkLabel }}</a>
+        }
+      </p>
+      <button class="ml-2 shrink-0 opacity-80 hover:opacity-100" (click)="store.dismissAnnouncement()" aria-label="Dismiss announcement">
         <iconify-icon icon="solar:close-circle-linear" width="18" height="18"></iconify-icon>
       </button>
     </div>
@@ -28,7 +32,7 @@
          [class.bg-blue-container]="incident.severity === 'info'"
          [class.text-on-blue-container]="incident.severity === 'info'">
       <iconify-icon icon="solar:danger-triangle-bold-duotone" width="18" height="18"></iconify-icon>
-      <span class="flex-1">{{ incident.message }}</span>
+      <span class="min-w-0 flex-1">{{ incident.message }}</span>
       <button class="opacity-80 hover:opacity-100" (click)="store.dismissIncident(incident.id)" aria-label="Dismiss">
         <iconify-icon icon="solar:close-circle-linear" width="18" height="18"></iconify-icon>
       </button>
@@ -51,7 +55,7 @@
     }
 
     <!-- Main -->
-    <div class="flex flex-1 flex-col overflow-hidden">
+    <div class="flex min-w-0 flex-1 flex-col overflow-hidden">
       <header class="shrink-0 border-b border-outline-variant bg-surface">
         <app-header />
       </header>

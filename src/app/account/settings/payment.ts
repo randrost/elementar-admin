@@ -39,9 +39,9 @@ const BRAND_ICONS: Record<PaymentMethod['brand'], string> = {
               <iconify-icon [icon]="brandIcon(card)" width="34" height="24"></iconify-icon>
             </span>
 
-            <div class="min-w-0 flex-1">
+            <div class="min-w-0 flex-1 basis-36">
               <p class="flex flex-wrap items-center gap-2 text-sm font-medium text-on-surface">
-                <span class="tabular-nums">•••• •••• •••• {{ card.last4 }}</span>
+                <span class="whitespace-nowrap tabular-nums">•••• •••• •••• {{ card.last4 }}</span>
                 @if (card.primary) {
                   <span class="rounded-full bg-primary-container px-2 py-0.5 text-[11px] font-medium text-on-primary-container">
                     Primary

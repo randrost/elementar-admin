@@ -95,7 +95,7 @@ function loadDone(): string[] {
       description="A short setup checklist, then the shortcuts you'll use most.">
       <div class="flex flex-col gap-6">
         <!-- Progress -->
-        <section class="rounded-2xl border border-outline-variant bg-surface p-6">
+        <section class="rounded-2xl border border-outline-variant bg-surface p-4 sm:p-6">
           <div class="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h2 class="text-lg font-semibold text-on-surface">Set up your workspace</h2>
@@ -141,14 +141,16 @@ function loadDone(): string[] {
                     height="22"></iconify-icon>
                 </button>
 
-                <div class="min-w-0 flex-1">
+                <!-- basis-36: below ~9rem of text the action button wraps onto its
+                     own line instead of squeezing the description to one word per line. -->
+                <div class="min-w-0 flex-1 basis-36">
                   <p class="text-sm font-medium text-on-surface" [class.line-through]="done" [class.text-on-surface-variant]="done">
                     {{ item.title }}
                   </p>
                   <p class="mt-0.5 text-sm text-on-surface-variant">{{ item.description }}</p>
                 </div>
 
-                <a matButton="outlined" class="shrink-0" [routerLink]="item.link">{{ item.action }}</a>
+                <a matButton="outlined" class="shrink-0 max-sm:ml-14" [routerLink]="item.link">{{ item.action }}</a>
               </li>
             }
           </ul>

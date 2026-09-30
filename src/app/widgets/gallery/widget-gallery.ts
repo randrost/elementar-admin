@@ -41,7 +41,7 @@ const META: Record<WidgetGroup, GalleryMeta> = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-page [title]="meta().title" [description]="meta().description">
-      <div class="grid gap-6 lg:grid-cols-2">
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         @for (widget of widgets(); track widget.id) {
           <div [class]="spanClass(widget)">
             <ng-container *ngComponentOutlet="widget.component" />

@@ -117,7 +117,8 @@ test.describe('contacts', () => {
 test.describe('dynamic dashboard', () => {
   test('a widget can be added and the layout persists', async ({ page }) => {
     await page.goto('/dashboard/dynamic');
-    const tiles = page.locator('ktd-grid-item');
+    // .tile, not ktd-grid-item: phones get a plain stacked list instead of the grid.
+    const tiles = page.locator('.tile');
     const before = await countWhenReady(tiles);
 
     await page.getByRole('button', { name: 'Add widget' }).click();
@@ -190,6 +191,8 @@ test.describe('calendar', () => {
   test('renders a full week of columns', async ({ page }) => {
     await page.goto('/applications/calendar');
     await page.waitForLoadState('networkidle');
+    // Phones start in the list view; the month grid is one click away.
+    await page.getByRole('group', { name: 'Calendar view' }).getByRole('button', { name: 'Month' }).click();
 
     await expect(page.locator('.fc-col-header-cell')).toHaveCount(7);
 

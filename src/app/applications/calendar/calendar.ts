@@ -227,7 +227,11 @@ export class CalendarComponent {
 
   protected readonly host = viewChild.required(CalendarHostDirective);
 
-  protected readonly view = signal<CalendarView>('dayGridMonth');
+  // A month grid leaves ~40px per day on a phone and cuts every event title;
+  // start in the list view there (the view toggle still offers Month).
+  protected readonly view = signal<CalendarView>(
+    typeof matchMedia === 'function' && matchMedia('(max-width: 639px)').matches ? 'listWeek' : 'dayGridMonth'
+  );
   protected readonly title = signal('');
 
   protected readonly editingId = signal<string | null>(null);

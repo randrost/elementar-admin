@@ -85,7 +85,8 @@ const HEALTH: Record<Health, { label: string; dot: string; chip: string }> = {
               width="24"
               height="24"></iconify-icon>
           </span>
-          <div class="min-w-0 flex-1">
+          <!-- basis-36 lets the button wrap below instead of squeezing the text. -->
+          <div class="min-w-0 flex-1 basis-36">
             <p class="text-base font-semibold text-on-surface">
               {{ overallHealth() === 'operational' ? 'All systems operational' : 'Some services are degraded' }}
             </p>
@@ -104,13 +105,13 @@ const HEALTH: Record<Health, { label: string; dot: string; chip: string }> = {
                   <iconify-icon [icon]="item.icon" width="22" height="22"></iconify-icon>
                 </span>
 
-                <div class="min-w-0 flex-1">
+                <div class="min-w-0 flex-1 basis-36">
                   <p class="text-sm font-medium text-on-surface">{{ item.name }}</p>
                   <p class="text-xs text-on-surface-variant">{{ item.blurb }}</p>
                 </div>
 
                 <div class="flex items-center gap-2">
-                  <span class="size-2.5 rounded-full" [class]="health(item.id).dot"></span>
+                  <span class="size-2.5 shrink-0 rounded-full" [class]="health(item.id).dot"></span>
                   <span class="text-sm text-on-surface-variant">{{ health(item.id).label }}</span>
                 </div>
 

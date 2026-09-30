@@ -2,6 +2,7 @@ import {
   afterNextRender,
   ChangeDetectionStrategy,
   Component,
+  computed,
   CUSTOM_ELEMENTS_SCHEMA,
   DestroyRef,
   ElementRef,
@@ -106,6 +107,27 @@ function loadLayout(): KtdGridLayoutItem[] {
           </div>
           <button matButton="filled" type="button" (click)="pickerOpen.set(true)">Add a widget</button>
         </div>
+      } @else if (narrow()) {
+        <!-- Phones: the 12-column grid squeezed tiles to a third of the screen and
+             content spilled over the next tile. Stack them in layout order instead;
+             dragging and resizing only make sense on the wide grid. -->
+        <div class="flex flex-col gap-4">
+          @for (item of stacked(); track item.id) {
+            <div class="tile group relative grid grid-cols-1" [style.min-height.px]="heightOf(item)">
+              <div class="absolute right-3 top-3 z-20 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
+                <button
+                  type="button"
+                  class="grid size-8 place-items-center rounded-lg bg-surface-container-highest text-on-surface-variant hover:text-red-700 dark:hover:text-red-400"
+                  (click)="remove(item.id)"
+                  [attr.aria-label]="'Remove ' + nameOf(item.id)">
+                  <iconify-icon icon="solar:close-circle-linear" width="16" height="16"></iconify-icon>
+                </button>
+              </div>
+
+              <ng-container *ngComponentOutlet="componentOf(item.id)" />
+            </div>
+          }
+        </div>
       } @else {
         <ktd-grid
           [cols]="cols"
@@ -199,6 +221,14 @@ export class DynamicDashboardComponent {
   protected readonly layout = signal<KtdGridLayoutItem[]>(loadLayout());
   protected readonly pickerOpen = signal(false);
 
+  private readonly narrowQuery =
+    typeof matchMedia === 'function' ? matchMedia('(max-width: 639px)') : null;
+  protected readonly narrow = signal(this.narrowQuery?.matches ?? false);
+  /** Tiles top-to-bottom, left-to-right, for the stacked phone layout. */
+  protected readonly stacked = computed(() =>
+    [...this.layout()].sort((a, b) => a.y - b.y || a.x - b.x)
+  );
+
   private readonly grid = viewChild(KtdGridComponent);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private lastWidth = 0;
@@ -216,7 +246,19 @@ export class DynamicDashboardComponent {
     });
 
     afterNextRender(() => observer.observe(this.host.nativeElement));
-    inject(DestroyRef).onDestroy(() => observer.disconnect());
+
+    const onNarrowChange = (event: MediaQueryListEvent) => this.narrow.set(event.matches);
+    this.narrowQuery?.addEventListener('change', onNarrowChange);
+
+    inject(DestroyRef).onDestroy(() => {
+      observer.disconnect();
+      this.narrowQuery?.removeEventListener('change', onNarrowChange);
+    });
+  }
+
+  /** The tile's grid height, used as a minimum in the stacked layout so charts keep their size. */
+  protected heightOf(item: KtdGridLayoutItem): number {
+    return item.h * ROW_HEIGHT + (item.h - 1) * GAP;
   }
 
   /** Keeps generated tile ids unique against whatever was restored. */

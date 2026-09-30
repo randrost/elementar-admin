@@ -1,4 +1,4 @@
-<div class="flex h-16 items-center gap-2 px-3 sm:px-4">
+<div class="flex h-16 items-center gap-1 px-2 sm:gap-2 sm:px-4">
   <!-- Sidebar toggle (desktop: compact; mobile: open drawer).
        Material injects unlayered `display` rules on its button hosts, which
        beat Tailwind's layered responsive utilities, so the visibility classes
@@ -28,20 +28,26 @@
 
   <div class="flex-1"></div>
 
-  <!-- Actions -->
-  <a
-    matIconButton
-    href="https://elementar-rt.tulikas.de"
-    target="_blank"
-    rel="noopener"
-    matTooltip="Component library"
-    aria-label="Component library (opens in a new tab)">
-    <iconify-icon icon="solar:library-linear" width="20" height="20"></iconify-icon>
-  </a>
+  <!-- Actions. Below `sm` only the essentials fit next to the menu button
+       (eight 48px buttons overflowed a 320px screen). Library and search are
+       hidden there; chat stays reachable via Applications in the sidebar. -->
+  <span class="hidden sm:inline-flex">
+    <a
+      matIconButton
+      href="https://elementar-rt.tulikas.de"
+      target="_blank"
+      rel="noopener"
+      matTooltip="Component library"
+      aria-label="Component library (opens in a new tab)">
+      <iconify-icon icon="solar:library-linear" width="20" height="20"></iconify-icon>
+    </a>
+  </span>
 
-  <button matIconButton matTooltip="Search" aria-label="Search">
-    <iconify-icon icon="solar:magnifer-linear" width="20" height="20"></iconify-icon>
-  </button>
+  <span class="hidden sm:inline-flex">
+    <button matIconButton matTooltip="Search" aria-label="Search">
+      <iconify-icon icon="solar:magnifer-linear" width="20" height="20"></iconify-icon>
+    </button>
+  </span>
 
   <!-- Apps -->
   <button matIconButton [matMenuTriggerFor]="appsMenu" matTooltip="Apps" aria-label="Apps">
@@ -67,7 +73,7 @@
     <iconify-icon icon="solar:bell-linear" width="20" height="20"></iconify-icon>
   </button>
   <mat-menu #notifMenu="matMenu" class="!max-w-none">
-    <div class="w-80" (click)="$event.stopPropagation()">
+    <div class="w-80 max-w-[calc(100vw-2rem)]" (click)="$event.stopPropagation()">
       <div class="flex items-center justify-between px-4 py-3">
         <span class="text-sm font-semibold text-on-surface">Notifications</span>
         <button class="text-xs text-primary hover:underline" (click)="store.markAllRead()">Mark all read</button>
@@ -94,9 +100,11 @@
   </mat-menu>
 
   <!-- Chat drawer (wired in a later phase) -->
-  <button matIconButton matTooltip="Chat" aria-label="Chat" routerLink="/applications/messenger">
-    <iconify-icon icon="solar:chat-round-line-linear" width="20" height="20"></iconify-icon>
-  </button>
+  <span class="hidden sm:inline-flex">
+    <button matIconButton matTooltip="Chat" aria-label="Chat" routerLink="/applications/messenger">
+      <iconify-icon icon="solar:chat-round-line-linear" width="20" height="20"></iconify-icon>
+    </button>
+  </span>
 
   <!-- Color scheme -->
   <button matIconButton (click)="toggleScheme()" [matTooltip]="isDark() ? 'Light mode' : 'Dark mode'" aria-label="Toggle color scheme">
