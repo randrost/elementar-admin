@@ -25,7 +25,7 @@ const initialState: AppState = {
     id: 'a1',
     message: 'Elementar RT Admin is open-source and MIT licensed.',
     linkLabel: 'View the repo',
-    link: 'https://github.com/randrost/elementar-rt-demo'
+    link: 'https://github.com/randrost/elementar-admin'
   },
   incidents: [],
   notifications: seedNotifications,
