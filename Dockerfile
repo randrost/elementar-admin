@@ -21,6 +21,7 @@ FROM nginx:1.27-alpine AS serve
 COPY --from=build /usr/src/app/dist/elementar-rt-admin/browser /usr/share/nginx/html
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx-security-headers.conf /etc/nginx/snippets/security-headers.conf
 
 EXPOSE 80
 
